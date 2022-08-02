@@ -3,8 +3,8 @@
 version = "1.0.0"
 
 # The title and description fields are primarily for displaying extension info in UI
-title = "Orion's Visualize Energy Extension"
-description="Given a model with a custom attribute containing simulation data, this extension will visualize that data for selected layers. This extension will also allow the user to create sensors and visualize sensor data."
+title = "Orion's Visualize EnergyPlus Data Extension"
+description="Given a model with custom attributes containing simulation data, this extension will visualize that data for selected layers."
 
 # Path (relative to the root) or content of readme markdown file for UI.
 readme  = "docs/README.md"
@@ -13,11 +13,10 @@ readme  = "docs/README.md"
 repository = ""
 
 # One of categories for UI.
-category = "Example"
+category = ""
 
 # Keywords for the extension
-keywords = ["kit", "example"]
-
+keywords = ["kit", "EnergyPlus", "Visualization"]
 
 # Use omni.ui to build simple UI
 [dependencies]
@@ -27,4 +26,4 @@ keywords = ["kit", "example"]
 
 # Main python module this extension provides, it will be publicly available as "import omni.hello.world".
 [[python.module]]
-name = "orion.Transparent.Material"
+name = "orion.EnergyPlus.Visualization"

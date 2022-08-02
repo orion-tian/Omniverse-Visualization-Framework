@@ -11,7 +11,6 @@ from .legend_overlay import LegendOverlay
 from .legend_colors import BYR, FULLCOLOR, MONOCHROMATIC, PROTANOPIA, TRITANOPIA, AttributeColor
 import random
 
-
 # Any class derived from `omni.ext.IExt` in top level module (defined in `python.modules` of `extension.toml`) will be
 # instantiated when extension gets enabled and `on_startup(ext_id)` will be called. Later when extension gets disabled
 # on_shutdown() is called.
@@ -38,8 +37,7 @@ class MyExtension(omni.ext.IExt):
             self.viewport_scene = None
 
     def on_startup(self, ext_id):
-        print("[orion.Transparent.Material] MyExtension startup")
-        # The extension Window
+        print("[orion.EnergyPlus.Visualization] MyExtension startup")
         self._window = ui.Window("Visualize Energy Data", width=300, height=300)
         with self._window.frame:
             with ui.VStack():
@@ -47,22 +45,23 @@ class MyExtension(omni.ext.IExt):
                 # the main function on_click, visualizes energy simulations #
                 # ----------------------------------------------------------#
                 def on_click():
-                    """Creates the colored volumes and legend"""
+                    """Creates the colored volumes and legend for selected layer"""
                     print("clicked!")
-                    # Get chosen legend color palette
+                    # create AttributeColor object for the chosen legend color variable
                     curr_legColor = AttributeColor(LegendOverlay.findData(Func.getSelPaths(), 
-                                                                Func.getComboValue(dataComboBox, MyExtension.dataList)), 
-                                                                Func.getComboValue(paletteComboBox, MyExtension.legendColorList),
-                                                                Func.getComboValue(legendDiviComboBox, divisions))
-                    # Testing
-                    print("TESTTESTTESTTESTTESTTESTTESTTEST")
-                    self.testing(directionComboBox, 0, 0)
-                    # Create Folders for the Colored Volumes for each zone
+                                                    Func.getComboValue(dataComboBox, MyExtension.dataList)), 
+                                                    Func.getComboValue(paletteComboBox, MyExtension.legendColorList),
+                                                    Func.getComboValue(legendDiviComboBox, divisions))
+                    # # Testing
+                    # print("TESTTESTTESTTESTTESTTESTTESTTEST")
+                    # self.testing(directionComboBox, 0, 0)
+
+                    # Remove Energy_Results xForm if it exists and recreate it to contain xForms for the colore volumes and the materials
                     omni.usd.get_context().get_stage().RemovePrim('/World/Energy_Results')
                     Func.defineXform('/World/Energy_Results/ColoredVolms')
                     Func.defineXform('/World/Energy_Results')
                     matFolder = Func.defineXform('/World/Energy_Results/Materials')
-                    # Create all the materials for the legend, then assign all meshes the appropriate mat based on data, then make the legend overlay
+                    # assign the materials and create legend using determType class to create the right ones for the data type of the attribute you want to visualize
                     DetermType.assign(curr_legColor, matFolder, Func.getComboValue(dataComboBox, MyExtension.dataList))
                     DetermType.legend(Func.getComboValue(directionComboBox, directions), MyExtension.viewport_window)
                
@@ -88,27 +87,25 @@ class MyExtension(omni.ext.IExt):
                         directions = {'top':'top', 'bottom':'bottom', 'left':'left', 'right':'right'}
                         directionComboBox = Func.makeComboAndLabel("Legend Placement", directions)
                         def dummy_legend():
-                            # If energy simulation not been visualized yet, prevent creating/changing legend
+                            """function to change position of legend, but not its color palette or resolution"""
                             DetermType.legend(Func.getComboValue(directionComboBox, directions), MyExtension.viewport_window)
                         directionComboBox.model.add_item_changed_fn(lambda m, i: dummy_legend())
 
                 ui.Button("Visualize", clicked_fn=lambda: on_click(), style = {"font_size": 30})
                 with ui.HStack():
                     with ui.VStack():
-                        # Button for creating random data for testing
+                        # Button for creating random data for testing purposes
                         ui.Label("Generate Random Data based on selected layer for testing", height = magicNumHeight, style = {"font_size":16})
                         ui.Button("Generate Data", clicked_fn=lambda: self.gen_all_rand_data("simulation_data"), style = {"font_size": 30})
                     
                     with ui.VStack():
                         # Button for clearing legend
                         ui.Label("Clear Legend from Screen", height = magicNumHeight, style = {"font_size":16})
-                        def clearLegend():
-                            MyExtension.viewport_window.frame.clear()
-                        ui.Button("Clear", clicked_fn=lambda: clearLegend(), style = {"font_size": 30})
+                        ui.Button("Clear", clicked_fn=lambda: MyExtension.viewport_window.frame.clear(), style = {"font_size": 30})
 
     def on_shutdown(self):
         MyExtension.viewport_window.frame.clear()
-        print("[orion.Transparent.Material] MyExtension shutdown")
+        print("[orion.EnergyPlus.Visualization] MyExtension shutdown")
     
     # Testing function
     def testing(self, var1, var2, var3):
@@ -123,9 +120,8 @@ class MyExtension(omni.ext.IExt):
     # Sub-functions to generate random data to simulate #
     # --------------------------------------------------#
     def gen_all_rand_data(self, dataName):
-        """ Generate the random data for all selected prims and
+        """ Generate a random float from 0 to 100 for all selected prims and
         make a custom attribute for each prim to store the data in"""
-        print('adjflaskfjsldfjasldkjsdalfkjsda')
         # get selected paths to generate data for
         selected_prims = Func.getSelPaths()
         for s in selected_prims:
@@ -172,44 +168,3 @@ class MyExtension(omni.ext.IExt):
                                             attr_value=int)
                 else:
                     self.gen_one_layer_rand_data(c.GetChildren(), dataName)
-
-# legendColors=[Gf.Vec3f(0.0, 0.0, 1),  
-    #             Gf.Vec3f(0.0, 0.5, 1), 
-    #             Gf.Vec3f(0, 1, 1), 
-    #             Gf.Vec3f(0, 1, 0.5),
-    #             Gf.Vec3f(0, 1, 0), 
-    #             Gf.Vec3f(0.5, 1, 0), 
-    #             Gf.Vec3f(1, 1, 0), 
-    #             Gf.Vec3f(1, 0.5, 0), 
-    #             Gf.Vec3f(1, 0, 0)]
-    # legendColors2=[Gf.Vec3f(0.0, 0.0, 1), 
-    #             Gf.Vec3f(0.0, 0.5, 1), 
-    #             Gf.Vec3f(0.3, 0.5, 1), 
-    #             Gf.Vec3f(0.7, 0.7, 0.2),
-    #             Gf.Vec3f(1, 1, 0), 
-    #             Gf.Vec3f(1, 0.7, 0), 
-    #             Gf.Vec3f(1, 0.3, 0), 
-    #             Gf.Vec3f(1, 0.15, 0.2), 
-    #             Gf.Vec3f(1, 0, 0)]
-    # legendColorsBlueYellow=[Gf.Vec3f(0.0, 51.0/255, 150.0/255), 
-    #                         Gf.Vec3f(23.0/255, 80.0/255, 172.0/255), 
-    #                         Gf.Vec3f(51.0/255, 115.0/255, 196.0/255), 
-    #                         Gf.Vec3f(84.0/255, 148.0/255, 218.0/255),
-    #                         Gf.Vec3f(115.0/255, 185.0/255, 238.0/255), 
-    #                         Gf.Vec3f(134.0/255, 206.0/255, 250.0/255), 
-    #                         Gf.Vec3f(165.0/255, 145.0/255, 61.0/255), 
-    #                         Gf.Vec3f(176.0/255, 155.0/255, 18.0/255), 
-    #                         Gf.Vec3f(196.0/255, 175.0/255, 24.0/255), 
-    #                         Gf.Vec3f(217.0/255, 194.0/255, 29.0/255), 
-    #                         Gf.Vec3f(237.0/255, 214.0/255, 34.0/255)]
-    # legendColorsCyanRed=[Gf.Vec3f(21.0/255, 101.0/255, 109.0/255), 
-    #                     Gf.Vec3f(68.0/255, 143.0/255, 154.0/255), 
-    #                     Gf.Vec3f(0, 161.0/255, 172.0/255), 
-    #                     Gf.Vec3f(84.0/255, 193.0/255, 207.0/255),
-    #                     Gf.Vec3f(1, 190.0/255, 202.0/255),
-    #                     Gf.Vec3f(240.0/255, 113.0/255, 120.0/255),  
-    #                     Gf.Vec3f(1, 28.0/255, 0)]
-    # oldLegendColorList={"Blue to Green to Red": legendColors, 
-    #                     "Blue to Yellow to Red": legendColors2, 
-    #                     "Blue to Yellow": legendColorsBlueYellow,
-    #                     "Cyan to Red": legendColorsCyanRed}

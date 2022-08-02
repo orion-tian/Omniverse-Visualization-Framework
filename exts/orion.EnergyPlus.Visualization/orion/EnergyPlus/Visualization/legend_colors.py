@@ -22,10 +22,12 @@ class Color():
         return str_out
 
     def color(self, index):
+        """returns the rgb values for given index"""
+        # create rgb values
         red = self.r(index)
         green = self.g(index)
         blue = self.b(index)
-        
+        # return the right mix of RGB calues for the different vistion types and color palettes
         if self.vision_type == FULLCOLOR:
             return red, green, blue
         elif self.vision_type == BYR:

@@ -3,17 +3,17 @@ import omni.usd
 import omni.kit.commands
 from pxr import Sdf
 
-# Functions that are frequently used or takes up a lot of space
 class Func:
-    
+    """class containing frequently used functions or ones that take up a lot of space"""
     #--------------#
     # UI Functions #
     #--------------#
     def makeComboAndLabel(label, dict):
-        """Creates a ui label with string label and a comboBox underneath with the keys in dict,
+        """Creates a ui label with given string label and a comboBox underneath with the keys in given dict, and
         returns a reference to the created comboBox"""
         magicNumHeight = 30
         magicNumWidth = 300
+
         ui.Label(label, height=magicNumHeight, style = {"font_size":16})
 
         comboBox = ui.ComboBox(width=magicNumWidth, height=magicNumHeight)
@@ -23,8 +23,8 @@ class Func:
 
     def getComboValue(comboBox, dict):
         """returns the value associated with the chosen key of the comboBox in dict"""
-        index =comboBox.model.get_item_children()[comboBox.model.get_item_value_model().get_value_as_int()]
-        return  dict[comboBox.model.get_item_value_model(index).as_string]
+        index = comboBox.model.get_item_children()[comboBox.model.get_item_value_model().get_value_as_int()]
+        return dict[comboBox.model.get_item_value_model(index).as_string]
     
     #---------------#
     # USD Functions #
@@ -57,6 +57,7 @@ class Func:
                 omni.kit.commands.execute('ToggleVisibilitySelectedPrims',selected_paths=pathList)
     
     def createTranspMaterial(matFolderString, color, ior, transmWeight, rough):
+        """create a transparent material in xForm given by matFolderString with properties given by the arguments"""
         # Create material
         omni.kit.commands.execute('CreateMdlMaterialPrim',
                                 mtl_url='OmniSurface.mdl',
