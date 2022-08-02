@@ -22,14 +22,10 @@ class AssignFloatMat:
     
     def createAllMats(legendColors: AttributeColor, matFolder):
         """create all materials for meshes based on legendColors, and stores them in matFolder"""
-        #defining values of material properties
-        ior = 1.0
-        transmWeight = 0.85
-        rough = 1.0
         for i in range(legendColors.len+1):
             if i==legendColors.len:
                 # the last material to use if data is 'None', colored black
-                Func.createTranspMaterial(Func.getPath(matFolder) + '/mat' + str(i), (0,0,0), ior, transmWeight, rough)
+                Func.createTranspMaterial(Func.getPath(matFolder) + '/mat' + str(i), (0,0,0))
             else:
                 # legendColors.color also uses an index system so 0 to its length-1 creates all the colors in its color palette
-                Func.createTranspMaterial(Func.getPath(matFolder) + '/mat' + str(i), legendColors.color(i), ior, transmWeight, rough)
+                Func.createTranspMaterial(Func.getPath(matFolder) + '/mat' + str(i), legendColors.color(i))

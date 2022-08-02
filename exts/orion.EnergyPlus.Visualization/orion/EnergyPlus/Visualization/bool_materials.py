@@ -21,15 +21,11 @@ class AssignBoolMat:
     
     def createAllMats(legendColors: AttributeColor, matFolder):
         """create all materials for meshes based on legendColors, and stores them in matFolder"""
-        #defining values of material properties
-        ior = 1.0
-        transmWeight = 0.85
-        rough = 1.0
         # creates 3 materials for boolean data, for True, False, and None
         for i in range(3):
             if i==2:
                 # the last material's color is black
-                Func.createTranspMaterial(Func.getPath(matFolder) + '/mat' + str(i), (0,0,0), ior, transmWeight, rough)
+                Func.createTranspMaterial(Func.getPath(matFolder) + '/mat' + str(i), (0,0,0))
             else:
                 # the legendColors.color function is also based on index, so here it create the first and last color
-                Func.createTranspMaterial(Func.getPath(matFolder) + '/mat' + str(i), legendColors.color(i*(legendColors.len-1)), ior, transmWeight, rough)
+                Func.createTranspMaterial(Func.getPath(matFolder) + '/mat' + str(i), legendColors.color(i*(legendColors.len-1)))

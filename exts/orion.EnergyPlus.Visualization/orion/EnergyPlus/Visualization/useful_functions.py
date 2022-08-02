@@ -56,8 +56,12 @@ class Func:
             if prim.GetAttribute('visibility').Get()=='inherited':
                 omni.kit.commands.execute('ToggleVisibilitySelectedPrims',selected_paths=pathList)
     
-    def createTranspMaterial(matFolderString, color, ior, transmWeight, rough):
+    def createTranspMaterial(matFolderString, color):
         """create a transparent material in xForm given by matFolderString with properties given by the arguments"""
+        # material properties
+        ior = 1.0
+        transmWeight = 0.7
+        rough = 1.0
         # Create material
         omni.kit.commands.execute('CreateMdlMaterialPrim',
                                 mtl_url='OmniSurface.mdl',

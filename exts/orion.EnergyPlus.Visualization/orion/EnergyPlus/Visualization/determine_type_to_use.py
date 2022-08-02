@@ -14,7 +14,7 @@ class DetermType:
         selected_prims = Func.getSelPaths()
         legParam = LegendOverlay.makeLegendParam(selected_prims, DetermType.legColor, data)
 
-        if legParam['min'] == False:
+        if type(legParam['min']) == bool:
             DetermType.isBoolData = True
         else: DetermType.isBoolData = False
         AssignMat.assign_all_mats(matFolder, DetermType.legColor, data, legParam, DetermType.isBoolData)

@@ -21,7 +21,9 @@ class MyExtension(omni.ext.IExt):
     #---------------------------------------------------#
     # Class variables for data, legend colors, viewport #
     #---------------------------------------------------#
-    dataList={"Simulation Data": "simulation_data",
+    dataList={'Summay Zone Min X (m)': '_InitializationSummary_ZoneInformation_MinimumXm',
+            'Time Not Comforatble: Winter Clothes (hr)': '_SystemSummary_TimeNotComfortableBasedonSimpleASHRAE552004_WinterClotheshr',
+            "Simulation Data": "simulation_data",
             "Simulation Data 2": "simulation_data_2",
             "Simulation Data with None": "simulation_data_none",
             "Boolean Simulation Data": 'simulation_boolean_data'}

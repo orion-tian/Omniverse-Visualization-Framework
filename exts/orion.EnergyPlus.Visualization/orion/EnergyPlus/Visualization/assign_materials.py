@@ -37,6 +37,8 @@ class AssignMat:
                 AssignMat.assign_one_layer_mats(curr_prim.GetChildren(), volmFolder, matFolder, legendParam, dataToRead)
             # make original selection invisible to better view energy results
             Func.invisible([s])
+        # set selected paths back to original selected prims, avoids also selecting the copied prims
+        Func.setSelPaths(selected_prims)
 
     def assign_one_layer_mats(children, volmFolder, matFolder, legendParam, dataToRead):
         """recursive helper method to assign materials for one layer, children are the list of children of the layer
@@ -63,13 +65,11 @@ class AssignMat:
                                 path_from=prim_path,
                                 path_to=prim_path+'ColoredVolm',
                                 exclusive_select=False)
-        # change selected prim paths from selected layer to this copied prim in order to bind material to copied prim
-        Func.setSelPaths([prim_path+"ColoredVolm"])
         # get the the right material from matFolder
         mtl_prim = Func.getPrimAtPath(Func.getPath(matFolder) + '/mat' + str(colorIndex))
-
         # Get the copied prim
         prim = Func.getPrimAtPath(prim_path+'ColoredVolm')
+        prim.GetAttribute('visibility').Set('inherited')
         # Bind the material to the prim
         mat_shade = UsdShade.Material(mtl_prim)
         UsdShade.MaterialBindingAPI(prim).Bind(mat_shade, UsdShade.Tokens.strongerThanDescendants)
