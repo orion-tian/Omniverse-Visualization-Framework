@@ -50,14 +50,12 @@ class Color():
 
 class AttributeColor(Color):
     """Class for specifying vision type and calculting rgb values"""
-    def __init__(self, attribute_list, vision_type, numColors=100, max_angle=(7/4)*pi):
+    def __init__(self, vision_type, numColors=100, max_angle=(7/4)*pi):
         """attribute_list is the list of data from custom attribute of model,
         vision_type is one of the enums,
         numColors is number of colors to use,
         max_angle is the total range of the color wheel used, 2pi would be the entire wheel"""
         super().__init__(numColors, vision_type)
-        self.min = min(attribute_list)
-        self.max = max(attribute_list)
         # max_angle determines how much of the color wheel to use
         # offset is where to start on the color wheel, 0 is red, and it goes counter-clockwise
         if vision_type == FULLCOLOR:

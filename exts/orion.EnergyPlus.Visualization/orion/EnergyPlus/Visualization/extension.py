@@ -50,9 +50,7 @@ class MyExtension(omni.ext.IExt):
                     """Creates the colored volumes and legend for selected layer"""
                     print("clicked!")
                     # create AttributeColor object for the chosen legend color variable
-                    curr_legColor = AttributeColor(LegendOverlay.findData(Func.getSelPaths(), 
-                                                    Func.getComboValue(dataComboBox, MyExtension.dataList)), 
-                                                    Func.getComboValue(paletteComboBox, MyExtension.legendColorList),
+                    curr_legColor = AttributeColor( Func.getComboValue(paletteComboBox, MyExtension.legendColorList),
                                                     Func.getComboValue(legendDiviComboBox, divisions))
                     # # Testing
                     # print("TESTTESTTESTTESTTESTTESTTESTTEST")
