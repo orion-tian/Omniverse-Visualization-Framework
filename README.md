@@ -1,3 +1,21 @@
+# Omniverse Visualization Framework
+Omniverse extension to visualize EnergyPlus simulation data on Omniverse 3D models by dynamically altering their materials. The goal of this research is to work towards developing a digital twin in Omniverse so that architectural design decision can be quickly be made with a computer instead of with the physical building, which can be slow and costly. We also found the current tools and pipelin involving running EnergyPlus from Grasshopper with Ladybug tools using Rhino models to be especially tedious for early stage architectural design where quick iteration is emphasized. 
+
+In addition, Grasshopper has limited capabilities to which simulations they can export and labels for the simulations they can export could not be imported into Omniverse. Thus, we wish to create Omniverse extensions to interface directly between Omniverse and energy simulations, thus streamlining the entire process with more control. My extension focuses upon visualzing the EnergyPlus data once it has been imported into Omniverse.
+
+<img width="468" alt="Picture2" src="https://github.com/user-attachments/assets/7ac429cc-b7aa-44c8-8efe-eea855aa4444">
+
+The extension assumes the model stores the result of an EnergyPlus simulation under custom attribute for each of its meshes. To use the extension, you first select the layers and meshes you want to visualize. You then use the drop down menus to specify the data to display, and various parameters of the resulting legend such as its color palette, resolution, and position on the viewport. 
+
+After you click the Visualize button, a new folder called Energy_Results will be created containing a copy of the meshes you selected. They will have a new material on them that has the color of the legend its data corresponds to. The original layers of the model you selected are turned invisible to better view the visualization. In addition, the original hierarchy of the model is maintained in the Energy_Results folder so you can easily find the part of the model you are most interested in. 
+
+<img width="468" alt="Picture3" src="https://github.com/user-attachments/assets/4d5447bc-8fc7-4249-a704-d38e5d63d840">
+
+
+Current color palette options include the full color palette from red to magenta, red to yellow to blue, monochromatic blue, and color blind options for protanopia and tritanopia. The resolution of the legend controls how many legend pieces there are, whether there are 7, 12, or 100 pieces. Lower resolutions are better for categorical data or a general overview of results while higher resolutions are better for a greater level of detail and continuous data. 
+
+_________________________________________________________________________________________________________
+
 # Extension Project Template
 
 This project was automatically generated.
